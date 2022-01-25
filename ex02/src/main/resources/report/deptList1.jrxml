@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.2.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="deptList" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c27ca-0e08-45ea-bb3d-dddaa7fe25ee">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="local_hr"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="557"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="429"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="282"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="709"/>
+	<style name="Style1"/>
+	<queryString language="SQL">
+		<![CDATA[
+		SELECT "DEPARTMENTS"."DEPARTMENT_ID"     "departmentId",
+	"DEPARTMENTS"."DEPARTMENT_NAME"  "departmentName",
+	"DEPARTMENTS"."LOCATION_ID"      "locationId",
+	"DEPARTMENTS"."MANAGER_ID"       "managerId"   ,
+	"LOCATIONS"."CITY"               "city"
+FROM "DEPARTMENTS"
+	INNER JOIN "LOCATIONS" ON 
+	 "DEPARTMENTS"."LOCATION_ID" = "LOCATIONS"."LOCATION_ID"]]>
+	</queryString>
+	<field name="departmentId" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="departmentId"/>
+	</field>
+	<field name="departmentName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="departmentName"/>
+	</field>
+	<field name="locationId" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="locationId"/>
+	</field>
+	<field name="managerId" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="managerId"/>
+	</field>
+	<field name="city" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="city"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89">
+			<staticText>
+				<reportElement x="155" y="29" width="244" height="30" uuid="68495f4a-0a13-4d20-8656-66c970fa7eb8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="141" height="30" uuid="1dee349b-b1fc-4067-94f6-cfe735d1cf35">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d4d0865-ecab-460e-a6b2-fa0bb7aa1f1a"/>
+				</reportElement>
+				<text><![CDATA[departmentId]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="0" width="138" height="30" uuid="a5094a7c-016f-4a48-9e02-46f72fcc767e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6edb1952-1878-46bd-b01c-15ce6ce57692"/>
+				</reportElement>
+				<text><![CDATA[departmentName]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="90" splitType="Stretch">
+			<rectangle>
+				<reportElement x="3" y="1" width="266" height="79" uuid="ba324caf-e3b2-4f0c-87b3-8e23c1422d50"/>
+			</rectangle>
+			<textField>
+				<reportElement x="3" y="5" width="141" height="30" uuid="45b1e3e0-09d3-4a2a-9fed-a3c0254295c6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d4d0865-ecab-460e-a6b2-fa0bb7aa1f1a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{departmentId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="5" width="115" height="30" uuid="f46fb7e7-08d0-4382-a244-7966ef078092">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6edb1952-1878-46bd-b01c-15ce6ce57692"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="40" width="138" height="30" uuid="a26f81b3-b4e9-40ed-b43f-be3c26d1e646">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d8ce4d6-e6d9-4157-bb77-f06024732b7a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{managerId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="40" width="100" height="30" uuid="8549e368-89ea-4462-bfdc-37183616c69b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="84cb3d31-c523-4e05-af03-ecc592651174"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

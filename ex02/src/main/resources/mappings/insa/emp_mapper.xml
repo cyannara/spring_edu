@@ -4,6 +4,20 @@
 
 <mapper namespace="com.dbal.app.insa.mapper.EmpMapper">
  
+ <select id="findTemp"  resultType="map">
+	select seq, to_char(dt, 'miss') as DT, temp
+	  from eq_temp
+	 <choose>
+	  <when test="seq != null">
+ 	 where seq > #{seq}
+	  </when>
+	  <otherwise>
+	  where dt > sysdate- 10/(24*60)
+	  </otherwise>
+	 </choose> 
+	order by seq
+</select>
+
 	<select id="getEmp" parameterType="EmpVO" resultType="EmpVO">
 		SELECT  employee_id,
 		        first_name,

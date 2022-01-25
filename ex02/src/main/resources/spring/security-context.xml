@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/rosources/**" security="none" />
+	<security:http>
+		<security:intercept-url pattern="/top.jsp"
+			access="permitAll()" />
+		<security:intercept-url pattern="/logout"
+			access="permitAll()" />
+		<security:intercept-url pattern="/loginForm"
+			access="permitAll()" />			
+		<security:intercept-url pattern="/admin/**"
+			access="hasAuthority('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+		<security:form-login 
+		   login-page="/loginForm"
+		   login-processing-url="/login"
+		   username-parameter="id"
+		   authentication-success-handler-ref="customLogin"
+		default-target-url="/top.jsp" />
+		<security:logout logout-url="/logout"
+			logout-success-url="/top.jsp" 
+			
+			/>
+		<security:access-denied-handler error-page="/error/accessError.jsp"/>
+		<security:csrf disabled="false" />
+	</security:http>
+  
+	<security:authentication-manager>
+		<security:authentication-provider>
+			
+			<security:jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query
+			    ="select id, password, 1 from users where id=?"
+			authorities-by-username-query
+			    ="select id, 'ROLE_' || upper(role) from users where id=?"
+			/>
+			<security:password-encoder hash="bcrypt"  />
+		</security:authentication-provider>
+		
+	</security:authentication-manager>
+</beans>

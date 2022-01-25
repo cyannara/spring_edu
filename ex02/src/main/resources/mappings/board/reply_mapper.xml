@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbal.app.board.mapper.ReplyMapper">
+	<select id="getCountByBno" resultType="int">
+		SELECT COUNT(*) 
+		  FROM TBL_REPLY 
+		 WHERE BNO = #{bno} 
+	</select>
+	<select id="getList" resultType="ReplyVO" >
+		SELECT RNO,  BNO, REPLY, writer, REGDT
+		  FROM (  SELECT /*+  INDEX(tbl_reply, idx_reply) */
+		                          ROWNUM rn, RNO,  BNO, REPLY, writer, REGDT
+		                FROM TBL_REPLY
+		               WHERE BNO = #{bno}
+		                  AND rno > 0 
+		          <![CDATA[   AND ROWNUM <=  #{cri.pageNum} * #{cri.amount}   ]]>
+		           )  a
+		WHERE RN > (#{cri.pageNum}-1) * #{cri.amount}
+	</select>
+	<select id="read" resultType="ReplyVO"  >
+		SELECT RNO
+		       ,BNO
+			  ,REPLY
+			  ,writer
+			  ,REGDT
+			  ,UPDDT
+		  FROM TBL_REPLY
+		 WHERE RNO = #{rno}
+	</select> 
+	<insert id="insert">
+		<selectKey keyProperty="rno" resultType="long" order="BEFORE">
+			SELECT SEQ_REPLY.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO TBL_REPLY( 
+				   RNO
+				  ,BNO
+				  ,REPLY
+				  ,writer
+			 )
+			VALUES(
+				  #{rno}
+				 ,#{bno}
+				 ,#{reply}
+				 ,#{writer}
+			)
+	</insert>
+	
+	<update id="update">
+		UPDATE TBL_REPLY SET 
+			   REPLY = #{reply}
+			  ,UPDDT = sysdate
+		WHERE RNO = #{rno}	
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM TBL_REPLY
+		 WHERE RNO = #{rno}	
+	</delete>
+</mapper>

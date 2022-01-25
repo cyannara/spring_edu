@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dbal.app.insa.mapper.EmpMapper">
+ 
+	<select id="getEmp" parameterType="EmpVO" resultType="EmpVO">
+		SELECT  employee_id,
+		        first_name,
+				last_name,
+				email,
+				hire_date,
+				job_id
+		FROM employees
+		WHERE
+			<choose>
+				<when test="email != null and email != ''">
+					email = #{email}
+				</when>
+				<otherwise> employee_id = #{employeeId} </otherwise>
+			</choose>
+		 
+	</select>
+	<select id="getEmpList" resultType="EmpVO" >
+		SELECT rownum id, e.* 
+		  FROM employees e
+		<where>  
+		  <if test="departmentId != null">
+		       department_id = #{departmentId}
+		  </if>  
+	      <if test="employeeId != null">
+            and employee_id = #{employeeId}
+          </if>  
+          <if test="salary != null">
+            <![CDATA[ and salary < #{salary} ]]>
+          </if>    
+          <if test="firstName != null">
+            and upper(first_name) like '%' || upper(#{firstName}) || '%'
+          </if>     
+        </where>	
+		 ORDER BY first_name 
+	</select>
+
+	<insert id="insertEmp" parameterType="EmpVO">
+		INSERT INTO EMPLOYEES (	employee_id, 
+								first_name, 
+								last_name,
+								email,
+								hire_date,
+								job_id,
+								profile
+								)
+	 	                VALUES(
+	 	               			( select nvl(max(employee_id),0)+1 from employees ),
+	 	               			#{firstName},
+	 	               			#{lastName},
+	 	               			#{email},
+	 	               			#{hireDate},
+	 	               			#{jobId},
+	 	               			#{profile}
+	 	               			)
+	</insert>
+
+
+</mapper>
